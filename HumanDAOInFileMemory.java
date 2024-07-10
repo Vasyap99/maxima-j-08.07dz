@@ -140,6 +140,23 @@ public class HumanDAOInFileMemory implements IHumanDAO{
     }
 
     public void delete(int id){
+        try{        
+
+        int offset=0;
+        while(offset<raf.length()){
+            raf.seek(offset);                
+            if(raf.readByte()=='T'){ //Eto zapis' v bd
+                raf.seek(offset+1+4+sl[0]+4+sl[1]+4+sl[2]  +4);                
+                int id1=raf.readInt();
+                if(id1==id){  //Eto nuzhnaja zapis'
+                    raf.seek(offset);                
+                    raf.writeByte(0);
+                }
+            }
+            offset+=rec_len;
+        }
+
+        }catch(Exception e){System.out.println("-findId exc");}
     }
 
 
@@ -168,6 +185,8 @@ public class HumanDAOInFileMemory implements IHumanDAO{
             hh.setAge(40);
             t.update(hh);
             System.out.println(t.findById(2));
+
+            t.delete(hh.getId());
 
             t.close();
         }catch(Exception e){System.out.println("err in main");}
