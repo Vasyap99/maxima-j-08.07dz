@@ -118,7 +118,23 @@ public class HumanDAOInFileMemory implements IHumanDAO{
     }
 
     public void update(Human human){
-    
+        try{        
+
+        int offset=0;
+        while(offset<raf.length()){
+            raf.seek(offset);                
+            if(raf.readByte()=='T'){ //Eto zapis' v bd
+                raf.seek(offset+1+4+sl[0]+4+sl[1]+4+sl[2]  +4);                
+                int id1=raf.readInt();
+                if(id1==human.getId()){  //Eto nuzhnaja zapis'
+                    writeRec(offset,human);
+                }
+            }
+            offset+=rec_len;
+        }
+
+        }catch(Exception e){System.out.println("-findId exc");}
+   
     }
 
     public void delete(int id){
@@ -135,17 +151,22 @@ public class HumanDAOInFileMemory implements IHumanDAO{
             HumanDAOInFileMemory t=new HumanDAOInFileMemory("Humans.db",50,50,50);
             t.create(new Human("Петр","Иванов","Сергеевич",45,1));
             t.create(new Human("Егор","Семенов","Александрович",23,3));
-            t.create(new Human("Вася","Пупкин","Сергеевич",41,2));
+            Human hh=null;
+            t.create(hh=new Human("Вася","Пупкин","Сергеевич",41,2));
 
             Human h1=t.findById(3);
             System.out.println(h1);
 
             System.out.println(t.findById(1));
             System.out.println(t.findById(2));
-
             System.out.println(t.findById(3));
-            
             System.out.println(t.findById(10));
+
+            hh.setFirstName("Василий");
+            hh.setAge(40);
+            t.update(hh);
+            System.out.println(t.findById(2));
+
             t.close();
         }catch(Exception e){System.out.println("err in main");}
     }

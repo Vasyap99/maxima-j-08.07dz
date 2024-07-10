@@ -44,7 +44,7 @@ public class Human{
     public void setId(int id){
         this.id=id;
     }
-    public void setAge(int id){
+    public void setAge(int age){
         this.age=age;
     }
 
