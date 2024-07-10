@@ -45,6 +45,8 @@ public class HumanDAOInFileMemory implements IHumanDAO{
     }
 
     public Human create(Human human) throws Exception{
+        if(findById(human.getId())!=null) return null; 	//!!prinimaem Id - pervichnyj kl'uch
+
         long L=raf.length();
         int offset=0;
 
