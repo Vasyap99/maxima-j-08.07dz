@@ -57,6 +57,51 @@ public class HumanDAOInFileMemory implements IHumanDAO{
     }
 
     public Human findById(int id){
+        try{        
+
+        int offset=0;
+        while(offset<raf.length()){
+            raf.seek(offset);                
+            if(raf.readByte()=='T'){ //Eto zapis' v bd
+                raf.seek(offset+1+4+sl[0]+4+sl[1]+4+sl[2]  +4);                
+                int id1=raf.readInt();
+                if(id1==id){  //Eto nuzhnaja zapis'
+                    raf.seek(offset+1+4+sl[0]+4+sl[1]+4+sl[2]  );                
+                    int age=raf.readInt();         
+                    //
+                    raf.seek(offset+1);
+                    int fnL=raf.readInt();           
+                    char[] fnc=new char[fnL];
+                    for(int i=0;i<fnL;i++){
+                        fnc[i]=raf.readChar();
+                    }      
+                    String fn=new String(fnc);     
+                    //
+                    raf.seek(offset+1+4+sl[0]);
+                    int lnL=raf.readInt();
+                    char[] lnc=new char[lnL];
+                    for(int i=0;i<lnL;i++){
+                        lnc[i]=raf.readChar();
+                    }      
+                    String ln=new String(lnc);     
+                    //
+                    raf.seek(offset+1+4+sl[0]+4+sl[1]);
+                    int ptL=raf.readInt();
+                    char[] ptc=new char[ptL];
+                    for(int i=0;i<ptL;i++){
+                        ptc[i]=raf.readChar();
+                    }      
+                    //
+                    String pt=new String(ptc);     
+                    //
+                    return new Human(fn,ln,pt,age,id);
+                }
+            }
+            offset+=rec_len;
+        }
+
+        }catch(Exception e){System.out.println("-findId exc");}
+
         return null;
     }
 
@@ -79,6 +124,16 @@ public class HumanDAOInFileMemory implements IHumanDAO{
             t.create(new Human("Петр","Иванов","Сергеевич",45,1));
             t.create(new Human("Егор","Семенов","Александрович",23,3));
             t.create(new Human("Вася","Пупкин","Сергеевич",41,2));
+
+            Human h1=t.findById(3);
+            System.out.println(h1);
+
+            System.out.println(t.findById(1));
+            System.out.println(t.findById(2));
+
+            System.out.println(t.findById(3));
+            
+            System.out.println(t.findById(10));
             t.close();
         }catch(Exception e){System.out.println("err in main");}
     }

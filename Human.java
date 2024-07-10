@@ -48,4 +48,7 @@ public class Human{
         this.age=age;
     }
 
+    public String toString(){
+        return String.format("<Human: %s %s %s id:%d age:%d>",firstName,patronimic,lastName,id,age);
+    }
 }
