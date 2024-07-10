@@ -13,17 +13,7 @@ public class HumanDAOInFileMemory implements IHumanDAO{
         }catch(Exception e){}
     }
 
-    public Human create(Human human) throws Exception{
-        long L=raf.length();
-        int offset=rec_len*human.getId();
-
-        if(offset>L){
-            raf.seek(raf.length());
-            for(int i=0;i<rec_len;i++){
-                raf.writeByte(0);
-            }
-        }
-
+    private void writeRec(int offset,Human human) throws Exception{
         String fn=human.getFirstName();
         if(fn.length()>sl[0]) fn=fn.substring(0,sl[0]);
         //char[]fn_c=fn.toCharArray();
@@ -52,6 +42,28 @@ public class HumanDAOInFileMemory implements IHumanDAO{
         raf.seek(offset+1+4+sl[0]+4+sl[1]+4+sl[2]);
         raf.writeInt(human.getAge());
         raf.writeInt(human.getId());
+    }
+
+    public Human create(Human human) throws Exception{
+        long L=raf.length();
+        int offset=0;
+
+        while(offset<raf.length()){
+            raf.seek(offset);
+            if(raf.readByte()!='T'){
+                writeRec(offset,human);
+                return human;
+            }
+            offset+=rec_len;
+        }
+
+        //add extra space to file
+        raf.seek(raf.length());
+        for(int i=0;i<rec_len;i++){
+            raf.writeByte(0);
+        }
+        offset=(int)L;
+        writeRec(offset,human);
 
         return human;
     }
