@@ -168,10 +168,10 @@ public class HumanDAOInFileMemory implements IHumanDAO{
     public static void main(String[]s){
         try{
             HumanDAOInFileMemory t=new HumanDAOInFileMemory("Humans.db",50,50,50);
-            t.create(new Human("Петр","Иванов","Сергеевич",45,1));
-            t.create(new Human("Егор","Семенов","Александрович",23,3));
+            t.create(new Human("Petr","Ivanov","Sergeevich",45,1));
+            t.create(new Human("Ivan","Sergeev","Mihailovich",23,3));
             Human hh=null;
-            t.create(hh=new Human("Вася","Пупкин","Сергеевич",41,2));
+            t.create(hh=new Human("Vasya","Pupkin","Genned'evich",41,2));
 
             Human h1=t.findById(3);
             System.out.println(h1);
@@ -181,7 +181,7 @@ public class HumanDAOInFileMemory implements IHumanDAO{
             System.out.println(t.findById(3));
             System.out.println(t.findById(10));
 
-            hh.setFirstName("Василий");
+            hh.setFirstName("Vasilij");
             hh.setAge(40);
             t.update(hh);
             System.out.println(t.findById(2));
