@@ -3,7 +3,7 @@ public class Main{
         System.out.println("**************************");
 
         IHumanService service = new HumanService(new HumanDAOInFileMemory("Humans.db",50,50,50),new FileSequenceGenerator("Human.seq"));
-        //IHumanService service = new HumanService(new HumanDAOInMemory());
+        //IHumanService service = new HumanService(new HumanDAOInMemory(),new MemSequenceGenerator());
         //IHumanService service = new HumanService(new HumanDAOInMemorySimple(100),new MemSequenceGenerator());
 
         Human h=new Human("Oleg","Igonin","Leopoldovich",21);

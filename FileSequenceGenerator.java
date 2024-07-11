@@ -6,7 +6,7 @@ public class FileSequenceGenerator implements IIdGenerator{
     public FileSequenceGenerator(String fn){
         this.fn=fn;
 
-        FileOutputStream fos=null;
+        /*FileOutputStream fos=null;
         try{
             fos=new FileOutputStream(fn); 
             new DataOutputStream(fos).writeInt(0);
@@ -15,7 +15,7 @@ public class FileSequenceGenerator implements IIdGenerator{
             try{
                 fos.close();
             }catch(Exception e1){}
-        }
+        }*/
     }
 
     @Override
@@ -23,9 +23,12 @@ public class FileSequenceGenerator implements IIdGenerator{
         FileInputStream fis=null;
         FileOutputStream fos=null;
         try{
-            fis=new FileInputStream(fn);
-            int id = new DataInputStream(fis).readInt();
-            fis.close();
+            int id=0;
+            try{
+                fis=new FileInputStream(fn);
+                id = new DataInputStream(fis).readInt();
+                fis.close();
+            }catch(Exception e2){}
 
             fos=new FileOutputStream(fn); 
             new DataOutputStream(fos).writeInt(id+1);
