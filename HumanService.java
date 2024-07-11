@@ -1,13 +1,16 @@
 public class HumanService implements IHumanService{
     private IHumanDAO humanDAO;
+    private IIdGenerator iig;
 
-    public HumanService(IHumanDAO humanDAO){
+    public HumanService(IHumanDAO humanDAO,IIdGenerator iig){
         this.humanDAO=humanDAO;
+        this.iig=iig;
     }
 
     @Override
     public Human create(Human human) throws Exception{
         if(human.getAge()>0){
+            human.setId(iig.generateId());
             return humanDAO.create(human);
         }else throw new IllegalArgumentException("Wrong age!");
     }
