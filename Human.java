@@ -24,6 +24,14 @@ public class Human{
     public Human(){
     } 
 
+    public Human(String firstName,String lastName,String patronimic,int age){
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.patronimic=patronimic;
+        this.age=age;
+        this.id=id;
+    } 
+
     public Human(String firstName,String lastName,String patronimic,int age,int id){
         this.firstName=firstName;
         this.lastName=lastName;

@@ -4,14 +4,13 @@ public class HumanDAOInMemory implements IHumanDAO{
     private static Human[] humans=new Human[10];
 
     public Human create(Human human) throws Exception{
+        if(findById(human.getId())!=null) return null;
         if(count_id < humans.length){
-            human.setId(count_id);
-            humans[count_id] = human;
-            count_id++;
+            humans[count_id++] = human;
             return human;
         }else{
             boolean found=false;
-            for(int i=0; i<humans.length; i++){
+            for(int i=0; i<count_id; i++){
                 if(humans[i]==null){
                     found=true;
                     humans[i] = human;
@@ -23,18 +22,30 @@ public class HumanDAOInMemory implements IHumanDAO{
     }
 
     public Human findById(int id){
-        return humans[id];
+        for(int i=0; i<count_id; i++){
+            if(humans[i]!=null && humans[i].getId()==id) return humans[i];
+        }
+        return null;
     }
 
     public void update(Human human){
-        humans[human.getId()] = human;	
+        int id=human.getId();
+        for(int i=0; i<count_id; i++){
+            if(humans[i]!=null && humans[i].getId()==id){ //nashli
+                humans[i] = human;	
+            }
+        }
     }
 
     public void delete(int id){
-        if(id>=0 && id<humans.length){ 
-            humans[id]=null;
-            //kko:
-            if(id==count_id-1)  count_id--;
+        for(int i=0; i<count_id; i++){
+            if(humans[i]!=null && humans[i].getId()==id){ //nashli
+                humans[i]=null;
+                //kko:
+                if(i==count_id-1)  count_id--;
+                break;
+            }
         }
     }
+
 }

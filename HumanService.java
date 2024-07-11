@@ -7,7 +7,9 @@ public class HumanService implements IHumanService{
 
     @Override
     public Human create(Human human) throws Exception{
-        return humanDAO.create(human);
+        if(human.getAge()>0){
+            return humanDAO.create(human);
+        }else throw new IllegalArgumentException("Wrong age!");
     }
 
     @Override
