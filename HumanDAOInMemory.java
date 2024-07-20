@@ -3,6 +3,7 @@ public class HumanDAOInMemory implements IHumanDAO{
 
     private static Human[] humans=new Human[10];
 
+    @Override
     public Human create(Human human) throws Exception{
         if(findById(human.getId())!=null) return null;
         if(count_id < humans.length){
@@ -21,6 +22,7 @@ public class HumanDAOInMemory implements IHumanDAO{
         }
     }
 
+    @Override
     public Human findById(int id){
         for(int i=0; i<count_id; i++){
             if(humans[i]!=null && humans[i].getId()==id) return humans[i];
@@ -28,6 +30,7 @@ public class HumanDAOInMemory implements IHumanDAO{
         return null;
     }
 
+    @Override
     public void update(Human human){
         int id=human.getId();
         for(int i=0; i<count_id; i++){
@@ -37,6 +40,7 @@ public class HumanDAOInMemory implements IHumanDAO{
         }
     }
 
+    @Override
     public void delete(int id){
         for(int i=0; i<count_id; i++){
             if(humans[i]!=null && humans[i].getId()==id){ //nashli

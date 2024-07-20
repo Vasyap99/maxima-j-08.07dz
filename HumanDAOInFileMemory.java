@@ -44,6 +44,7 @@ public class HumanDAOInFileMemory implements IHumanDAO{
         raf.writeInt(human.getId());
     }
 
+    @Override
     public Human create(Human human) throws Exception{
         if(findById(human.getId())!=null) return null; 	//!!prinimaem Id - pervichnyj kl'uch
 
@@ -70,6 +71,7 @@ public class HumanDAOInFileMemory implements IHumanDAO{
         return human;
     }
 
+    @Override
     public Human findById(int id){
         try{        
 
@@ -119,6 +121,7 @@ public class HumanDAOInFileMemory implements IHumanDAO{
         return null;
     }
 
+    @Override
     public void update(Human human){
         try{        
 
@@ -139,6 +142,7 @@ public class HumanDAOInFileMemory implements IHumanDAO{
    
     }
 
+    @Override
     public void delete(int id){
         try{        
 

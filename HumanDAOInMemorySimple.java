@@ -5,24 +5,28 @@ public class HumanDAOInMemorySimple implements IHumanDAO{
         humans=new Human[MAX];
     }
 
+    @Override
     public Human create(Human human) throws Exception{
         if(findById(human.getId())!=null) return null;
         humans[human.getId()] = human;
         return human;
     }
 
+    @Override
     public Human findById(int id){
         try{
             return humans[id];
         }catch(Exception e){return null;}
     }
 
+    @Override
     public void update(Human human){
         try{
             humans[human.getId()]=human;
         }catch(Exception e){}
     }
 
+    @Override
     public void delete(int id){
         try{
             humans[id]=null;
